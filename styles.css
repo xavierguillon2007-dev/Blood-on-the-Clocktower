@@ -9,3 +9,7 @@
 /* Déplacement libre des sièges sur le grimoire */
 .seat{touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none;transition:border-color .15s,background .15s,box-shadow .15s;}
 .seat.dragging{cursor:grabbing;z-index:5;transform:translate(-50%,-50%) scale(1.06);border-color:var(--gold);box-shadow:0 0 0 3px #d8b97935,0 12px 24px #0009;transition:none;}
+
+/* Calque de placement : même surface que la table pour calculer X et Y correctement. */
+#seats{position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-events:none;}
+#seats .seat{pointer-events:auto;}

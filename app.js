@@ -36,33 +36,48 @@ function renderSeats(){
    b.style.left=x+"%";b.style.top=y+"%";
    b.innerHTML=`<span class="seat-number">${String(i+1).padStart(2,"0")}</span><strong>${esc(p.name)}</strong><small>${p.dead?"✝ Mort":esc(p.role||"Rôle à définir")}</small>${p.poisoned?'<span class="poison-marker" title="Empoisonné jusqu’au début de la prochaine nuit">☠ Empoisonné</span>':''}`;
    b.title="Déplacer par glisser-déposer · Cliquer pour ouvrir la fiche de "+p.name;
-   let startX=0,startY=0, moved=false, dragging=false;
-   b.addEventListener("pointerdown",e=>{
-     if(e.button!==undefined && e.button!==0)return;
-     startX=e.clientX;startY=e.clientY;moved=false;dragging=true;
-     b.setPointerCapture?.(e.pointerId);b.classList.add("dragging");
-   });
-   b.addEventListener("pointermove",e=>{
-     if(!dragging)return;
+   let startX=0,startY=0, moved=false, dragging=false, pointerId=null;
+   const moveSeat = e => {
+     if(!dragging || (pointerId!==null && e.pointerId!==undefined && e.pointerId!==pointerId))return;
      const dx=e.clientX-startX,dy=e.clientY-startY;
-     if(Math.abs(dx)+Math.abs(dy)>5)moved=true;
+     if(Math.hypot(dx,dy)>4)moved=true;
      if(!moved)return;
      const rect=wrap.getBoundingClientRect();
-     const px=Math.max(7,Math.min(93,((e.clientX-rect.left)/rect.width)*100));
-     const py=Math.max(9,Math.min(91,((e.clientY-rect.top)/rect.height)*100));
+     const px=Math.max(6,Math.min(94,((e.clientX-rect.left)/rect.width)*100));
+     const py=Math.max(7,Math.min(93,((e.clientY-rect.top)/rect.height)*100));
      b.style.left=px+"%";b.style.top=py+"%";
-   });
-   const finishDrag=e=>{
-     if(!dragging)return;dragging=false;b.classList.remove("dragging");
+   };
+   const finishDrag = e => {
+     if(!dragging)return;
+     if(e && pointerId!==null && e.pointerId!==undefined && e.pointerId!==pointerId)return;
+     dragging=false;b.classList.remove("dragging");
      if(moved){
        const rect=wrap.getBoundingClientRect();
-       p.position={x:Math.max(7,Math.min(93,((e.clientX-rect.left)/rect.width)*100)),y:Math.max(9,Math.min(91,((e.clientY-rect.top)/rect.height)*100))};
+       p.position={
+         x:Math.max(6,Math.min(94,((e.clientX-rect.left)/rect.width)*100)),
+         y:Math.max(7,Math.min(93,((e.clientY-rect.top)/rect.height)*100))
+       };
        b.dataset.dragged="true";save();
-       setTimeout(()=>delete b.dataset.dragged,80);
+       setTimeout(()=>delete b.dataset.dragged,120);
      }
+     pointerId=null;
+     window.removeEventListener("pointermove",moveSeat);
+     window.removeEventListener("pointerup",finishDrag);
+     window.removeEventListener("pointercancel",finishDrag);
    };
-   b.addEventListener("pointerup",finishDrag);b.addEventListener("pointercancel",finishDrag);
-   b.addEventListener("click",e=>{if(moved||b.dataset.dragged==="true"){e.preventDefault();e.stopPropagation();return;}openDetail(p.id)});
+   b.addEventListener("pointerdown",e=>{
+     if(e.button!==undefined && e.button!==0)return;
+     e.preventDefault();
+     startX=e.clientX;startY=e.clientY;moved=false;dragging=true;pointerId=e.pointerId;
+     b.classList.add("dragging");
+     window.addEventListener("pointermove",moveSeat);
+     window.addEventListener("pointerup",finishDrag);
+     window.addEventListener("pointercancel",finishDrag);
+   });
+   b.addEventListener("click",e=>{
+     if(moved || b.dataset.dragged==="true"){e.preventDefault();e.stopPropagation();return;}
+     openDetail(p.id);
+   });
    wrap.appendChild(b);
  });
 }

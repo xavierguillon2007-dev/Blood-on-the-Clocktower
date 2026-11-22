@@ -24,3 +24,7 @@ Aucun backend, aucune clé API et aucune base de données ne sont nécessaires.
 
 ## Déplacement des joueurs
 Sur l'onglet Grimoire, cliquer-glisser un siège pour déplacer librement le joueur autour de la table. La position est enregistrée automatiquement dans la sauvegarde locale et incluse dans l'export JSON. Un simple clic ouvre toujours la fiche du joueur.
+
+
+### Déplacement des sièges
+Les sièges peuvent être déplacés librement dans les deux axes (haut/bas et gauche/droite). Les positions sont mémorisées dans la sauvegarde locale et dans l'export JSON.
