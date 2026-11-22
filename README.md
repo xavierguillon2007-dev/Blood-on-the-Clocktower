@@ -28,3 +28,7 @@ Sur l'onglet Grimoire, cliquer-glisser un siège pour déplacer librement le jou
 
 ### Déplacement des sièges
 Les sièges peuvent être déplacés librement dans les deux axes (haut/bas et gauche/droite). Les positions sont mémorisées dans la sauvegarde locale et dans l'export JSON.
+
+
+## Direction artistique
+Interface retravaillée dans une esthétique de grimoire gothique : encre bleu-noir, rouge sang, laiton patiné, parchemin, typographies à empattements et éléments moins arrondis. Les fonctionnalités et les données de partie restent inchangées.
