@@ -1,0 +1,362 @@
+[
+  [
+    "Washerwoman",
+    "Villageois",
+    "Trouble Brewing"
+  ],
+  [
+    "Librarian",
+    "Villageois",
+    "Trouble Brewing"
+  ],
+  [
+    "Investigator",
+    "Villageois",
+    "Trouble Brewing"
+  ],
+  [
+    "Chef",
+    "Villageois",
+    "Trouble Brewing"
+  ],
+  [
+    "Empath",
+    "Villageois",
+    "Trouble Brewing"
+  ],
+  [
+    "Fortune Teller",
+    "Villageois",
+    "Trouble Brewing"
+  ],
+  [
+    "Undertaker",
+    "Villageois",
+    "Trouble Brewing"
+  ],
+  [
+    "Monk",
+    "Villageois",
+    "Trouble Brewing"
+  ],
+  [
+    "Ravenkeeper",
+    "Villageois",
+    "Trouble Brewing"
+  ],
+  [
+    "Virgin",
+    "Villageois",
+    "Trouble Brewing"
+  ],
+  [
+    "Slayer",
+    "Villageois",
+    "Trouble Brewing"
+  ],
+  [
+    "Soldier",
+    "Villageois",
+    "Trouble Brewing"
+  ],
+  [
+    "Mayor",
+    "Villageois",
+    "Trouble Brewing"
+  ],
+  [
+    "Butler",
+    "Outsider",
+    "Trouble Brewing"
+  ],
+  [
+    "Drunk",
+    "Outsider",
+    "Trouble Brewing"
+  ],
+  [
+    "Recluse",
+    "Outsider",
+    "Trouble Brewing"
+  ],
+  [
+    "Saint",
+    "Outsider",
+    "Trouble Brewing"
+  ],
+  [
+    "Poisoner",
+    "Sbire",
+    "Trouble Brewing"
+  ],
+  [
+    "Spy",
+    "Sbire",
+    "Trouble Brewing"
+  ],
+  [
+    "Scarlet Woman",
+    "Sbire",
+    "Trouble Brewing"
+  ],
+  [
+    "Baron",
+    "Sbire",
+    "Trouble Brewing"
+  ],
+  [
+    "Imp",
+    "Démon",
+    "Trouble Brewing"
+  ],
+  [
+    "Clockmaker",
+    "Villageois",
+    "Sects & Violets"
+  ],
+  [
+    "Dreamer",
+    "Villageois",
+    "Sects & Violets"
+  ],
+  [
+    "Snake Charmer",
+    "Villageois",
+    "Sects & Violets"
+  ],
+  [
+    "Mathematician",
+    "Villageois",
+    "Sects & Violets"
+  ],
+  [
+    "Flowergirl",
+    "Villageois",
+    "Sects & Violets"
+  ],
+  [
+    "Town Crier",
+    "Villageois",
+    "Sects & Violets"
+  ],
+  [
+    "Oracle",
+    "Villageois",
+    "Sects & Violets"
+  ],
+  [
+    "Savant",
+    "Villageois",
+    "Sects & Violets"
+  ],
+  [
+    "Seamstress",
+    "Villageois",
+    "Sects & Violets"
+  ],
+  [
+    "Philosopher",
+    "Villageois",
+    "Sects & Violets"
+  ],
+  [
+    "Artist",
+    "Villageois",
+    "Sects & Violets"
+  ],
+  [
+    "Juggler",
+    "Villageois",
+    "Sects & Violets"
+  ],
+  [
+    "Sage",
+    "Villageois",
+    "Sects & Violets"
+  ],
+  [
+    "Mutant",
+    "Outsider",
+    "Sects & Violets"
+  ],
+  [
+    "Sweetheart",
+    "Outsider",
+    "Sects & Violets"
+  ],
+  [
+    "Evil Twin",
+    "Sbire",
+    "Sects & Violets"
+  ],
+  [
+    "Witch",
+    "Sbire",
+    "Sects & Violets"
+  ],
+  [
+    "Pit-Hag",
+    "Sbire",
+    "Sects & Violets"
+  ],
+  [
+    "Fang Gu",
+    "Démon",
+    "Sects & Violets"
+  ],
+  [
+    "Vigormortis",
+    "Démon",
+    "Sects & Violets"
+  ],
+  [
+    "No Dashii",
+    "Démon",
+    "Sects & Violets"
+  ],
+  [
+    "Vortox",
+    "Démon",
+    "Sects & Violets"
+  ],
+  [
+    "Grandmother",
+    "Villageois",
+    "Bad Moon Rising"
+  ],
+  [
+    "Sailor",
+    "Villageois",
+    "Bad Moon Rising"
+  ],
+  [
+    "Chambermaid",
+    "Villageois",
+    "Bad Moon Rising"
+  ],
+  [
+    "Exorcist",
+    "Villageois",
+    "Bad Moon Rising"
+  ],
+  [
+    "Innkeeper",
+    "Villageois",
+    "Bad Moon Rising"
+  ],
+  [
+    "Gambler",
+    "Villageois",
+    "Bad Moon Rising"
+  ],
+  [
+    "Gossip",
+    "Villageois",
+    "Bad Moon Rising"
+  ],
+  [
+    "Courtier",
+    "Villageois",
+    "Bad Moon Rising"
+  ],
+  [
+    "Professor",
+    "Villageois",
+    "Bad Moon Rising"
+  ],
+  [
+    "Tea Lady",
+    "Villageois",
+    "Bad Moon Rising"
+  ],
+  [
+    "Pacifist",
+    "Villageois",
+    "Bad Moon Rising"
+  ],
+  [
+    "Fool",
+    "Villageois",
+    "Bad Moon Rising"
+  ],
+  [
+    "Tinker",
+    "Outsider",
+    "Bad Moon Rising"
+  ],
+  [
+    "Moonchild",
+    "Outsider",
+    "Bad Moon Rising"
+  ],
+  [
+    "Goon",
+    "Outsider",
+    "Bad Moon Rising"
+  ],
+  [
+    "Lunatic",
+    "Outsider",
+    "Bad Moon Rising"
+  ],
+  [
+    "Godfather",
+    "Sbire",
+    "Bad Moon Rising"
+  ],
+  [
+    "Devil's Advocate",
+    "Sbire",
+    "Bad Moon Rising"
+  ],
+  [
+    "Assassin",
+    "Sbire",
+    "Bad Moon Rising"
+  ],
+  [
+    "Mastermind",
+    "Sbire",
+    "Bad Moon Rising"
+  ],
+  [
+    "Zombuul",
+    "Démon",
+    "Bad Moon Rising"
+  ],
+  [
+    "Pukka",
+    "Démon",
+    "Bad Moon Rising"
+  ],
+  [
+    "Po",
+    "Démon",
+    "Bad Moon Rising"
+  ],
+  [
+    "Klutz",
+    "Outsider",
+    "Sects & Violets"
+  ],
+  [
+    "Cerenovus",
+    "Sbire",
+    "Sects & Violets"
+  ],
+  [
+    "Shabaloth",
+    "Démon",
+    "Bad Moon Rising"
+  ],
+  [
+    "Barber",
+    "Outsider",
+    "Sects & Violets"
+  ],
+  [
+    "Minstrel",
+    "Villageois",
+    "Bad Moon Rising"
+  ]
+]

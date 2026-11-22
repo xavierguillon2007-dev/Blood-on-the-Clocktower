@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#11111b"><title>Clocktower — Grimoire du Conteur</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="#"><span class="brand-mark">✦</span><span><b>CLOCKTOWER</b><small>GRIMOIRE DU CONTEUR</small></span></a>
+  <div class="top-actions"><span id="saveState" class="save-state">● Sauvegarde locale active</span><button class="btn ghost" id="exportBtn">Exporter</button><button class="btn ghost" id="importBtn">Importer</button><input id="importFile" type="file" accept="application/json" hidden></div>
+</header>
+<main>
+  <section class="intro">
+    <div><p class="eyebrow">LE CARNET DU CONTEUR</p><h1>La nuit tombe sur <em>Ravenswood Bluff.</em></h1><p class="sub">Prépare les rôles, installe tes joueurs et garde le fil de la partie.</p></div>
+    <div class="phase-switch"><span>PHASE</span><button id="phaseBtn" class="phase night"><span id="phaseIcon">☾</span><span id="phaseText">Nuit</span></button></div>
+  </section>
+  <nav class="tabs">
+    <button class="tab active" data-tab="grimoire">◉ Grimoire</button><button class="tab" data-tab="players">♟ Joueurs & rôles</button><button class="tab" data-tab="tokens">✧ Jetons & notes</button>
+  </nav>
+  <section id="tab-grimoire" class="tab-panel active">
+    <div class="section-head"><div><p class="eyebrow">VUE D'ENSEMBLE</p><h2>La table</h2></div><button class="btn primary" id="addPlayerTop">＋ Ajouter un joueur</button></div>
+    <div class="stats">
+      <div class="stat"><span>EN JEU</span><b id="aliveCount">0</b></div><div class="stat"><span>MORTS</span><b id="deadCount">0</b></div><div class="stat"><span>VOTES RESTANTS</span><b id="votesCount">0</b></div><div class="stat"><span>JOUEURS</span><b id="totalCount">0</b></div>
+    </div>
+    <div class="table-layout">
+      <div class="round-table" id="roundTable"><div class="table-center"><span class="center-sigil">✦</span><b>RAVENSWOOD<br>BLUFF</b><small id="roundLabel">PREMIÈRE NUIT</small><span class="center-rule"></span><small id="centerCounts">0 vivants · 0 morts</small></div><div id="seats"></div></div>
+      <aside class="side-panel"><div class="panel-title"><div><p class="eyebrow">SUIVI DE PARTIE</p><h3>Le registre</h3></div><span class="live-dot"></span></div><div class="role-breakdown" id="breakdown"></div><div class="divider"></div><h4>Actions rapides</h4><button class="action-row" id="nextDay">☀ <span>Passer au jour</span><b>→</b></button><button class="action-row" id="nextNight">☾ <span>Passer à la nuit</span><b>→</b></button><button class="action-row" id="resetVotes">↻ <span>Réinitialiser les votes</span><b>→</b></button><div class="divider"></div><p class="hint">Astuce : sélectionne un joueur autour de la table pour ouvrir sa fiche, changer son rôle ou gérer son état.</p></aside>
+    </div>
+  </section>
+  <section id="tab-players" class="tab-panel">
+    <div class="section-head"><div><p class="eyebrow">TON VILLAGE</p><h2>Joueurs & rôles</h2></div><button class="btn primary" id="addPlayer">＋ Créer un joueur</button></div>
+    <div class="toolbar"><input id="playerSearch" placeholder="Rechercher un joueur…" type="search"><select id="filterTeam"><option value="">Toutes les équipes</option><option>Villageois</option><option>Outsider</option><option>Sbire</option><option>Démon</option></select></div>
+    <div id="playerList" class="player-list"></div>
+  </section>
+  <section id="tab-tokens" class="tab-panel">
+    <div class="section-head"><div><p class="eyebrow">MÉMO DU CONTEUR</p><h2>Jetons & notes</h2></div></div>
+    <div class="token-grid"><div class="card"><h3>Jetons de rappel</h3><p class="muted">Ajoute un rappel à un joueur pour garder en mémoire un effet ou une information.</p><div class="inline-form"><select id="tokenPlayer"><option value="">Choisir un joueur</option></select><input id="tokenName" placeholder="Ex. Empoisonné, Protégé…"><button class="btn primary" id="addToken">Ajouter</button></div><div id="tokenList"></div></div><div class="card"><h3>Notes de partie</h3><p class="muted">Tes notes restent privées sur cet appareil.</p><textarea id="gameNotes" rows="9" placeholder="Informations, bluff, interactions, événements…"></textarea></div></div>
+  </section>
+</main>
+<div id="modal" class="modal hidden"><div class="modal-backdrop" data-close></div><div class="modal-card"><button class="close" data-close>×</button><p class="eyebrow" id="modalEyebrow">NOUVEAU JOUEUR</p><h2 id="modalTitle">Ajouter un joueur</h2><form id="playerForm"><input type="hidden" id="editId"><label>Nom du joueur<input id="playerName" required maxlength="40" placeholder="Ex. Alice"></label><label>Rôle<select id="playerRole"></select></label><div class="form-actions"><button type="button" class="btn ghost" data-close>Annuler</button><button class="btn primary" type="submit">Enregistrer</button></div></form></div></div>
+<div id="detailModal" class="modal hidden"><div class="modal-backdrop" data-close></div><div class="modal-card detail-card"><button class="close" data-close>×</button><p class="eyebrow">FICHE JOUEUR</p><h2 id="detailName"></h2><div id="detailRole" class="role-pill"></div><div class="detail-actions"><button class="btn primary" id="toggleDead">Marquer mort</button><button class="btn ghost" id="toggleVote">Vote utilisé</button><button class="btn ghost" id="editPlayer">Modifier</button></div><label>Jetons de rappel<input id="detailToken" placeholder="Ajouter un rappel puis Entrée"></label><div id="detailTokens" class="detail-tokens"></div><button class="btn danger full" id="deletePlayer">Supprimer ce joueur</button></div></div>
+<footer><span>✦ CLOCKTOWER</span><span>Un outil de table pour le Conteur · Données conservées dans ce navigateur</span></footer>
+<script src="app.js"></script>
+</body></html>
