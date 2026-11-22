@@ -29,8 +29,41 @@ function render(){
 }
 function renderSeats(){
  const wrap=$("#seats");wrap.innerHTML="";const n=state.players.length;if(!n)return;
- state.players.forEach((p,i)=>{const a=(2*Math.PI*i/n)-Math.PI/2;const radius= Math.min(43, 40);const x=50+radius*Math.cos(a),y=50+radius*Math.sin(a);
- const b=document.createElement("button");b.className="seat"+(p.dead?" dead":"");b.style.left=x+"%";b.style.top=y+"%";b.innerHTML=`<span class="seat-number">${String(i+1).padStart(2,"0")}</span><strong>${esc(p.name)}</strong><small>${p.dead?"✝ Mort":esc(p.role||"Rôle à définir")}</small>`;b.title="Ouvrir la fiche de "+p.name;b.onclick=()=>openDetail(p.id);wrap.appendChild(b);
+ state.players.forEach((p,i)=>{
+   const a=(2*Math.PI*i/n)-Math.PI/2, radius=40;
+   const x=p.position?.x ?? 50+radius*Math.cos(a), y=p.position?.y ?? 50+radius*Math.sin(a);
+   const b=document.createElement("button");b.className="seat"+(p.dead?" dead":"")+(p.poisoned?" poisoned":"");
+   b.style.left=x+"%";b.style.top=y+"%";
+   b.innerHTML=`<span class="seat-number">${String(i+1).padStart(2,"0")}</span><strong>${esc(p.name)}</strong><small>${p.dead?"✝ Mort":esc(p.role||"Rôle à définir")}</small>${p.poisoned?'<span class="poison-marker" title="Empoisonné jusqu’au début de la prochaine nuit">☠ Empoisonné</span>':''}`;
+   b.title="Déplacer par glisser-déposer · Cliquer pour ouvrir la fiche de "+p.name;
+   let startX=0,startY=0, moved=false, dragging=false;
+   b.addEventListener("pointerdown",e=>{
+     if(e.button!==undefined && e.button!==0)return;
+     startX=e.clientX;startY=e.clientY;moved=false;dragging=true;
+     b.setPointerCapture?.(e.pointerId);b.classList.add("dragging");
+   });
+   b.addEventListener("pointermove",e=>{
+     if(!dragging)return;
+     const dx=e.clientX-startX,dy=e.clientY-startY;
+     if(Math.abs(dx)+Math.abs(dy)>5)moved=true;
+     if(!moved)return;
+     const rect=wrap.getBoundingClientRect();
+     const px=Math.max(7,Math.min(93,((e.clientX-rect.left)/rect.width)*100));
+     const py=Math.max(9,Math.min(91,((e.clientY-rect.top)/rect.height)*100));
+     b.style.left=px+"%";b.style.top=py+"%";
+   });
+   const finishDrag=e=>{
+     if(!dragging)return;dragging=false;b.classList.remove("dragging");
+     if(moved){
+       const rect=wrap.getBoundingClientRect();
+       p.position={x:Math.max(7,Math.min(93,((e.clientX-rect.left)/rect.width)*100)),y:Math.max(9,Math.min(91,((e.clientY-rect.top)/rect.height)*100))};
+       b.dataset.dragged="true";save();
+       setTimeout(()=>delete b.dataset.dragged,80);
+     }
+   };
+   b.addEventListener("pointerup",finishDrag);b.addEventListener("pointercancel",finishDrag);
+   b.addEventListener("click",e=>{if(moved||b.dataset.dragged==="true"){e.preventDefault();e.stopPropagation();return;}openDetail(p.id)});
+   wrap.appendChild(b);
  });
 }
 function renderPlayers(){
@@ -55,7 +88,7 @@ function openPlayerForm(id=null){
 function openDetail(id){
  selectedId=id;const p=state.players.find(x=>x.id===id);if(!p)return;
  $("#detailName").textContent=p.name;const info=roleInfo(p.role);$("#detailRole").textContent=`${info[1]} · ${p.role||"Rôle non attribué"}`;
- $("#toggleDead").textContent=p.dead?"Rendre vivant":"Marquer mort";$("#toggleVote").textContent=p.voted?"Annuler le vote utilisé":"Vote utilisé";
+ $("#toggleDead").textContent=p.dead?"Rendre vivant":"Marquer mort";$("#toggleVote").textContent=p.voted?"Annuler le vote utilisé":"Vote utilisé";$("#togglePoison").textContent=p.poisoned?"☠ Retirer l’empoisonnement":"☠ Empoisonné";$("#togglePoison").classList.toggle("active",!!p.poisoned);
  $("#detailTokens").innerHTML=(p.tokens||[]).map(t=>`<span>${esc(t)}</span>`).join("")||'<small class="muted">Aucun rappel</small>';showModal("#detailModal");
 }
 function bind(){
@@ -67,11 +100,20 @@ function bind(){
  document.querySelectorAll("[data-close]").forEach(x=>x.onclick=hideModals);document.querySelectorAll(".close").forEach(x=>x.onclick=hideModals);
  $("#toggleDead").onclick=()=>{const p=state.players.find(p=>p.id===selectedId);p.dead=!p.dead;save();render();openDetail(selectedId)};
  $("#toggleVote").onclick=()=>{const p=state.players.find(p=>p.id===selectedId);p.voted=!p.voted;save();render();openDetail(selectedId)};
+ $("#togglePoison").onclick=()=>{const p=state.players.find(p=>p.id===selectedId);p.poisoned=!p.poisoned;save();render();openDetail(selectedId)};
  $("#editPlayer").onclick=()=>{hideModals();openPlayerForm(selectedId)};
  $("#deletePlayer").onclick=()=>{if(confirm("Supprimer ce joueur ?")){state.players=state.players.filter(p=>p.id!==selectedId);state.tokens=state.tokens.filter(t=>t.playerId!==selectedId);save();hideModals();render()}};
  $("#detailToken").onkeydown=e=>{if(e.key==="Enter"){e.preventDefault();const v=e.target.value.trim();if(v){state.players.find(p=>p.id===selectedId).tokens.push(v);e.target.value="";save();render();openDetail(selectedId)}}};
- $("#phaseBtn").onclick=()=>{state.phase=state.phase==="Nuit"?"Jour":"Nuit";if(state.phase==="Nuit")state.day++;save();render()};
- $("#nextDay").onclick=()=>{state.phase="Jour";save();render()};$("#nextNight").onclick=()=>{state.phase="Nuit";state.day++;save();render()};
+ function changePhase(next){
+   if(state.phase===next)return;
+   // Les effets « cette nuit et demain » expirent au début de la nuit suivante.
+   if(state.phase==="Jour" && next==="Nuit") state.players.forEach(p=>{p.poisoned=false});
+   state.phase=next;
+   if(next==="Nuit")state.day++;
+   save();render();
+ }
+ $("#phaseBtn").onclick=()=>changePhase(state.phase==="Nuit"?"Jour":"Nuit");
+ $("#nextDay").onclick=()=>changePhase("Jour");$("#nextNight").onclick=()=>changePhase("Nuit");
  $("#resetVotes").onclick=()=>{state.players.forEach(p=>p.voted=false);save();render()};
  $("#playerSearch").oninput=renderPlayers;$("#filterTeam").onchange=renderPlayers;
  $("#addToken").onclick=()=>{const playerId=$("#tokenPlayer").value,name=$("#tokenName").value.trim();if(!playerId||!name)return alert("Choisis un joueur et indique un jeton.");state.tokens.push({playerId,name});$("#tokenName").value="";save();renderTokens()};

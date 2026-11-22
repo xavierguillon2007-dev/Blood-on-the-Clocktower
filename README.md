@@ -3,7 +3,7 @@
 Application statique autonome pour aider le Conteur pendant une partie IRL de Blood on the Clocktower.
 
 ## Utilisation
-- Pour tester localement, lancer un petit serveur statique dans ce dossier (par exemple `python3 -m http.server 8000`), puis ouvrir `http://localhost:8000`.
+- Ouvrir `index.html` dans un navigateur pour tester.
 - Ajouter les joueurs, attribuer leurs rôles et cliquer sur un siège pour gérer son état.
 - Les données sont sauvegardées dans `localStorage` sur cet appareil.
 - Utiliser Exporter / Importer pour sauvegarder ou transférer une partie.
@@ -21,3 +21,6 @@ Aucun backend, aucune clé API et aucune base de données ne sont nécessaires.
 - Le catalogue de rôles inclut les personnages des trois scripts de base (Trouble Brewing, Sects & Violets, Bad Moon Rising), avec possibilité de laisser un rôle non attribué.
 - Les rôles et jetons sont des aides de suivi : le site ne remplace pas le livret officiel ni l'ordre de réveil propre à chaque script.
 - La sauvegarde locale dépend du navigateur et de l'appareil. Exporter régulièrement la partie est recommandé.
+
+## Déplacement des joueurs
+Sur l'onglet Grimoire, cliquer-glisser un siège pour déplacer librement le joueur autour de la table. La position est enregistrée automatiquement dans la sauvegarde locale et incluse dans l'export JSON. Un simple clic ouvre toujours la fiche du joueur.
